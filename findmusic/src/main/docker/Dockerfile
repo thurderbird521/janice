@@ -5,7 +5,7 @@ ENV SPRING_OUTPUT_ANSI_ENABLED=ALWAYS \
     JHIPSTER_SLEEP=0 \
     JAVA_OPTS="-Dspring.profiles.active=stg" \
     DOCKER_HOST="http://192.168.160.189:2375"
-RUN cd findmusic
+
 ADD pom.xml /tmp/build/
  
 ADD src /tmp/build/src
