@@ -7,7 +7,7 @@ ENV SPRING_OUTPUT_ANSI_ENABLED=ALWAYS \
     DOCKER_HOST="http://192.168.160.189:2375"
 
 # Add a jhipster user to run our application so that it doesn't need to run as root
-RUN adduser -D -s /bin/sh jhipster
+# RUN adduser -D -s /bin/sh jhipster
 
 WORKDIR /home/jhipster
  #构建应用
