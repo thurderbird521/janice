@@ -6,18 +6,20 @@ ENV SPRING_OUTPUT_ANSI_ENABLED=ALWAYS \
     JAVA_OPTS="-Dspring.profiles.active=stg" \
     DOCKER_HOST="http://192.168.160.189:2375"
 
-# Add a jhipster user to run our application so that it doesn't need to run as root
-# RUN adduser -D -s /bin/sh jhipster
+ADD pom.xml /tmp/build/
+ 
+ADD src /tmp/build/src
+        #构建应用
+RUN cd /tmp/build && mvn clean package \
+        #拷贝编译结果到指定目录
+        && mv target/*.war /app.war \
+        #清理编译痕迹
+        && cd / && rm -rf /tmp/build
+VOLUME /tmp
 
-WORKDIR /home/jhipster
- #构建应用
-RUN mvn clean package
 COPY ./docker-entrypoint.sh
-ADD target/entrypoint.sh entrypoint.sh
-RUN chmod 755 entrypoint.sh && chown jhipster:jhipster entrypoint.sh
-USER jhipster
-
-ADD *.war app.war
+ADD entrypoint.sh entrypoint.sh
+RUN chmod 755 entrypoint.sh
 
 ENTRYPOINT ["./entrypoint.sh"]
 
