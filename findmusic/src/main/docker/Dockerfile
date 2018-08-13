@@ -1,10 +1,12 @@
 FROM openjdk:8-jre-alpine
 FROM hub.c.163.com/wuxukun/maven-aliyun:3-jdk-8
-
+FROM mysql:5.6
 ENV SPRING_OUTPUT_ANSI_ENABLED=ALWAYS \
     JHIPSTER_SLEEP=0 \
-    JAVA_OPTS="-Dspring.profiles.active=stg" \
-    DOCKER_HOST="http://192.168.160.189:2375"
+    JAVA_OPTS="-Dspring.profiles.active=stg"
+    
+# 复制数据库初始化脚本create_table.sql到/docker-entrypoint-initdb.d文件夹下
+COPY sql/create_table.sql /docker-entrypoint-initdb.d
 
 ADD pom.xml /tmp/build/
  
