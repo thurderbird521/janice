@@ -5,9 +5,6 @@ ENV SPRING_OUTPUT_ANSI_ENABLED=ALWAYS \
     JHIPSTER_SLEEP=0 \
     JAVA_OPTS="-Dspring.profiles.active=stg"
     
-# 复制数据库初始化脚本create_table.sql到/docker-entrypoint-initdb.d文件夹下
-COPY sql/create_table.sql /docker-entrypoint-initdb.d
-
 ADD pom.xml /tmp/build/
  
 ADD src /tmp/build/src
@@ -18,6 +15,9 @@ RUN cd /tmp/build && mvn clean package -Dmaven.skip.test=true \
         #清理编译痕迹
         && cd / && rm -rf /tmp/build
 VOLUME /tmp
+
+# 复制数据库初始化脚本create_table.sql到/docker-entrypoint-initdb.d文件夹下
+COPY sql/create_table.sql /docker-entrypoint-initdb.d
 
 COPY ./docker-entrypoint.sh
 ADD entrypoint.sh entrypoint.sh
